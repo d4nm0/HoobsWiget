@@ -1,6 +1,8 @@
 // Dan Monceau
 // Code Version: 15/08/2022
 // ******
+// https://github.com/d4nm0/HoobsWiget
+// ******
 // the widget was created in - 1 day. if you find any bugs, send me a message on LinkedIn or by email.
 // https://www.linkedin.com/in/dan-monceau-b8b56a131
 // @ : dan.monceau.lpcb@gmail.com
