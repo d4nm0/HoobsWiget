@@ -202,7 +202,3 @@ async function msToTime(ms) {
   else if (hours < 24) return hours + " Hrs";
   else return days + " Days"
 }
-
-
-
-
