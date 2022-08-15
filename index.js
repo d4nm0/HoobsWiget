@@ -57,7 +57,7 @@ async function createWidget() {
   imgstack.imageSize = new Size(40,40)
   title.centerAlignText();
   imgstack.centerAlignImage()
-  listwidget.addSpacer(20)
+  listwidget.addSpacer(10)
   
   
   let mainStack = listwidget.addStack() 
@@ -76,12 +76,29 @@ async function createWidget() {
   let cputemp = await getCpuTemp(rightStack, token)
   rightStack.addText('CPU Temp : ' + cputemp.toString() + '°C');
   rightStack.layoutVertically() 
-  let running = await getStatus(rightStack, token)
-  if (running = true) {
-    rightStack.addText('ok' + ' Running') 
+  let rightStack2 = rightStack.addStack() 
+  rightStack2.layoutHorizontally() 
+  let bridge = await getStatus(rightStack2, token)
+  if (bridge.running = true) {
+    let imgok = await new Request("https://github.com/d4nm0/HoobsWiget/blob/main/ok.png?raw=true").loadImage()
+    let imgstackok = rightStack2.addImage(imgok)
+    imgstackok.imageSize = new Size(15,15)
+    rightStack2.addText(' Running') 
   } else {
-    rightStack.addText('ko' + ' Running') 
+    let imgko = await new Request("https://github.com/d4nm0/HoobsWiget/blob/main/ko.png?raw=true").loadImage()
+    let imgstackko = rightStack2.addImage(imgko)
+    imgstackok.imageSize = new Size(15,15)
+    rightStack2.addText(' Running') 
   }
+  
+  //console.log(bridge.uptime)
+  var timestamp = bridge.uptime
+  var date = new Date(timestamp);
+  
+  var now = new Date();
+  var bDay = date;
+  var elapsedT = now - bDay;
+  console.log(await msToTime(elapsedT))
   
   // generate bottom text
   let dateTime = new Date()
@@ -173,7 +190,18 @@ async function getStatus(stack, token){
      return null;
   }
   
-  return result.bridges.hoobs.running
+  return result.bridges.hoobs
+}
+
+async function msToTime(ms) {
+  let seconds = (ms / 1000).toFixed(1);
+  let minutes = (ms / (1000 * 60)).toFixed(1);
+  let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+  let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+  if (seconds < 60) return seconds + " Sec";
+  else if (minutes < 60) return minutes + " Min";
+  else if (hours < 24) return hours + " Hrs";
+  else return days + " Days"
 }
 
 
