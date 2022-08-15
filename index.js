@@ -7,8 +7,10 @@
 // https://www.linkedin.com/in/dan-monceau-b8b56a131
 // @ : dan.monceau.lpcb@gmail.com
 
-const maxLineWidth = 600; 
-const normalLineHeight = 35;
+
+// BaseUrl server Hoobs With 'htttp://' and no '/' at the end
+// example : 'http://hoobs.local'
+const BaseUrlHoobsServer = 'http://hoobs.local'
 
 let widget = await createWidget();
 
@@ -25,7 +27,7 @@ async function createWidget() {
   const headers = {
       'accept': '*\/*', 'Content-Type': 'application/json'
   };  
-  let req = new Request('http://hoobs.local/api/auth/logon');
+  let req = new Request(BaseUrlHoobsServer+'/api/auth/logon');
   req.method = 'POST';
   req.headers = headers;
   let body = {  
@@ -91,22 +93,19 @@ async function createWidget() {
     rightStack2.addText(' Running') 
   }
   
-  //console.log(bridge.uptime)
+  // TODO Uptime server hoobs
   var timestamp = bridge.uptime
   var date = new Date(timestamp);
   
   var now = new Date();
   var bDay = date;
   var elapsedT = now - bDay;
-  console.log(await msToTime(elapsedT))
+  //console.log(await msToTime(elapsedT))
+  // End TODO
   
   // generate bottom text
   let dateTime = new Date()
-  let df = new DateFormatter()
-  df.locale = 'fr'
-  df.useFullDateStyle()
-  let formattedString = df.string(dateTime)
-  let sub = listwidget.addText("Updated : " + formattedString)
+  let sub = listwidget.addText("Updated : " + dateTime.toLocaleString())
   sub.font = Font.systemFont(10)
   sub.centerAlignText();
   
@@ -120,7 +119,7 @@ async function getCpuLoad(stack, token){
   let headers = {
       'Authorization': token
   };
-  let req = new Request('http://hoobs.local/api/system/cpu');
+  let req = new Request(BaseUrlHoobsServer+'/api/system/cpu');
   req.method = 'GET';
   req.headers = headers;
   let result;
@@ -140,7 +139,7 @@ async function getMemory(stack, token){
   let headers = {
       'Authorization': token
   };
-  let req = new Request('http://hoobs.local/api/system/memory');
+  let req = new Request(BaseUrlHoobsServer+'/api/system/memory');
   req.method = 'GET';
   req.headers = headers;
   let result;
@@ -161,7 +160,7 @@ async function getCpuTemp(stack, token){
   let headers = {
       'Authorization': token
   };
-  let req = new Request('http://hoobs.local/api/system/temp');
+  let req = new Request(BaseUrlHoobsServer+'/api/system/temp');
   req.method = 'GET';
   req.headers = headers;
   let result;
@@ -180,7 +179,7 @@ async function getStatus(stack, token){
   let headers = {
       'Authorization': token
   };
-  let req = new Request('http://hoobs.local/api/status');
+  let req = new Request(BaseUrlHoobsServer+'/api/status');
   req.method = 'GET';
   req.headers = headers;
   let result;
